@@ -1,0 +1,4 @@
+$ npm init -y
+$ npm i --save-dev nodemon express ejs sqlite3 express-session bcryptjs --save
+npx create-next-app my-next-app
+npm install react react-dom webpack webpack-cli babel-loader @babel/core @babel/preset-env @babel/preset-react
