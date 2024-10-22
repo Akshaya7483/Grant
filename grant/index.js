@@ -64,7 +64,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
-const port = 7003;
+const port = 7004;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   console.log(`http://localhost:${port}`);
