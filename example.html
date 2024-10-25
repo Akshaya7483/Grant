@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRANTS</title>
+    <style>
+        /* Basic resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(to right, #003134, #003134);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        .cta-buttons {
+            display: flex;
+        }
+
+        .cta-buttons button {
+            background: linear-gradient(45deg, #ffd700, #ffab00);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .cta-buttons button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #ff338b, #ff1a9c);
+        }
+
+        /* Banner Section */
+        .banner {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(120deg, #34e89e, #0f3443);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9);
+            border-bottom: 5px solid #fff;
+        }
+
+        /* Content Section */
+        .content {
+            display: flex;
+            padding: 30px;
+            width: 90%;
+            margin: auto;
+        }
+
+        .filter-section {
+            width: 25%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-right: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-section:hover {
+            transform: translateY(-5px);
+        }
+
+        h3 {
+            font-size: 22px;
+            color: #003134;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .grants-list {
+            width: 75%;
+        }
+
+        /* Grants Card */
+        .grant-card {
+            background-color: #fff;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .grant-card h4 {
+            font-size: 20px;
+            color: #003134;
+        }
+
+        .grant-card p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .grant-card button {
+            background: linear-gradient(45deg, #003134, #003134);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .grant-card button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #003134, #003134);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">GRANTS</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">UpdatesS</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="grants.html">Grants</a></li>
+                    <li><a href="contact_us.html">Contact us</a></li>
+                </ul>
+            </nav>
+            <div class="cta-buttons">
+                <button class="login-btn">Sign In</button>
+                <button class="post-btn">Post Announcement</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="banner">
+        <img src="banner.jpg" alt="Banner Image">
+    </section>
+
+    <section class="content">
+        <div class="filter-section">
+            <h3>Filter Grants</h3>
+            <label for="dateFrom">Post Added:</label>
+            <input type="date" id="dateFrom">
+            <input type="date" id="dateTo">
+            
+            <label for="thematicArea">Select Thematic Area</label>
+            <select id="thematicArea">
+                <option>Agriculture/ Food Security</option>
+                <option>Climate Change Adaptation</option>
+                <!-- Add other options -->
+            </select>
+        </div>
+
+        <div class="grants-list">
+            <div class="grant-card">
+                <h4>UN Women Leadership Grant</h4>
+                <p>Amount: 150,000 USD</p>
+                <button>Add to Calendar</button>
+                <button class="shortlist-btn">Shortlist</button>
+            </div>
+            <div class="grant-card">
+                <h4>Prime Minister Early Career Research Grant</h4>
+                <p>Amount: 6,000,000 INR</p>
+                <button>Add to Calendar</button>
+                <button class="shortlist-btn">Shortlist</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // GSAP animations for navbar and buttons
+            gsap.from(".navbar", {
+                opacity: 0,
+                y: -50,
+                duration: 1,
+                ease: "power4.out"
+            });
+
+            // Animating grant cards on page load
+            gsap.from(".grant-card", {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                stagger: 0.3,
+                ease: "power4.out"
+            });
+
+            // Animation on hover for grant cards
+            const grantCards = document.querySelectorAll(".grant-card");
+            grantCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { scale: 1.05, duration: 0.3 });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { scale: 1, duration: 0.3 });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
