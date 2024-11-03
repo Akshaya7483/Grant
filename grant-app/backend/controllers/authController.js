@@ -1,39 +1,14 @@
 const db = require('../db');
 const { exec } = require('child_process');
-const crypto = require('crypto');
 
-
-exports.getOtp = (req, res) => {
-    const { email, type } = req.body;
-    console.log(`Received OTP request for email: ${email} with type: ${type}`);
-
-    // Check if the OTP request is for "forgot-password"
-    if (type === "forgot-password") {
-        const userQuery = `SELECT * FROM users WHERE email = ?`;
-        db.get(userQuery, [email], (err, user) => {
-            if (err) {
-                console.error("Error checking user existence:", err.message);
-                return res.status(500).json({ success: false, message: "Server error. Please try again later." });
-            }
-            if (!user) {
-                return res.status(400).json({ success: false, message: "Invalid username" });
-            }
-
-            // Generate and send OTP since user exists
-            sendOtp(email, res);
-        });
-    } else if (type === "register") {
-        // Directly generate OTP for registration without checking user existence
-        sendOtp(email, res);
-    } else {
-        res.status(400).json({ success: false, message: "Invalid request type" });
-    }
-};
+// Function to generate OTP and store it in the database
+function generateOtp() {
+    return Math.floor(100000 + Math.random() * 900000);
+}
 
 // Helper function to generate, store, and send OTP
 function sendOtp(email, res) {
-    // Generate a 6-digit OTP using Math.random
-    const otp = Math.floor(100000 + Math.random() * 900000); // Generates a random number between 100000 and 999999
+    const otp = generateOtp();
     console.log(`Generated OTP for ${email}: ${otp}`);
 
     const sql = `INSERT INTO otp_requests (email, otp, created_at) VALUES (?, ?, datetime('now'))`;
@@ -55,26 +30,42 @@ function sendOtp(email, res) {
     });
 }
 
+// Endpoint to request OTP for registration or password reset
+exports.getOtp = (req, res) => {
+    const { email, type } = req.body;
+    console.log(`Received OTP request for email: ${email} with type: ${type}`);
 
+    if (type === "forgot-password") {
+        const userQuery = `SELECT * FROM users WHERE email = ?`;
+        db.get(userQuery, [email], (err, user) => {
+            if (err) {
+                console.error("Error checking user existence:", err.message);
+                return res.status(500).json({ success: false, message: "Server error. Please try again later." });
+            }
+            if (!user) {
+                return res.status(400).json({ success: false, message: "Invalid email. User not found." });
+            }
+            sendOtp(email, res);
+        });
+    } else if (type === "register") {
+        sendOtp(email, res);
+    } else {
+        res.status(400).json({ success: false, message: "Invalid request type" });
+    }
+};
+
+// Endpoint to verify OTP and register user
 exports.register = (req, res) => {
     const { email, otp, password, confirmPassword, name } = req.body;
 
+    if (password !== confirmPassword) {
+        return res.status(400).json({ success: false, message: "Passwords do not match" });
+    }
+
     const otpQuery = `SELECT * FROM otp_requests WHERE email = ? AND otp = ?`;
     db.get(otpQuery, [email, otp], (err, otpRecord) => {
-        if (err) {
-            console.error("Failed to verify OTP:", err.message);
-            return res.status(500).json({ success: false, message: "Failed to verify OTP" });
-        }
-        if (!otpRecord) {
+        if (err || !otpRecord) {
             return res.status(400).json({ success: false, message: "Invalid OTP" });
-        }
-
-        if (password.length < 4) {
-            return res.status(400).json({ success: false, message: "Password must be at least 4 characters long" });
-        }
-
-        if (password !== confirmPassword) {
-            return res.status(400).json({ success: false, message: "Passwords do not match" });
         }
 
         const userQuery = `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`;
@@ -86,12 +77,12 @@ exports.register = (req, res) => {
                 console.error("Failed to save user details:", err.message);
                 return res.status(500).json({ success: false, message: "Failed to save user details" });
             }
-
             res.json({ success: true, message: "Registration successful. Redirecting to login page..." });
         });
     });
 };
 
+// Endpoint to check if an email is already registered
 exports.checkEmail = (req, res) => {
     const { email } = req.body;
 
@@ -101,16 +92,11 @@ exports.checkEmail = (req, res) => {
             console.error("Error checking email:", err.message);
             return res.status(500).json({ success: false, message: "Server error" });
         }
-        if (row) {
-            return res.json({ exists: true });
-        } else {
-            return res.json({ exists: false });
-        }
+        res.json({ exists: Boolean(row) });
     });
 };
 
-
-
+// Endpoint for user login
 exports.login = (req, res) => {
     const { email, password } = req.body;
     console.log("Attempting login with:", email, password);
@@ -126,12 +112,12 @@ exports.login = (req, res) => {
             res.json({ success: true, message: "Login successful" });
         } else {
             console.log("No user found with provided credentials.");
-            res.json({ success: false, message: "Invalid credentials " });
+            res.json({ success: false, message: "Invalid credentials" });
         }
     });
 };
 
-
+// Endpoint to reset password
 exports.resetPassword = (req, res) => {
     const { email, otp, newPassword } = req.body;
 
@@ -144,6 +130,7 @@ exports.resetPassword = (req, res) => {
         const updatePasswordQuery = `UPDATE users SET password = ? WHERE email = ?`;
         db.run(updatePasswordQuery, [newPassword, email], function (err) {
             if (err) {
+                console.error("Failed to reset password:", err.message);
                 return res.status(500).json({ success: false, message: "Failed to reset password" });
             }
             res.json({ success: true, message: "Password reset successfully" });

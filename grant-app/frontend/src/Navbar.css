@@ -1,0 +1,76 @@
+:root {
+    --navbar-background-light: #f0f0f0; /* Grey for light theme */
+    --navbar-background-dark: #333333;  /* Dark for dark theme */
+    --navbar-link-color-light: #333333; /* Text color for links in light theme */
+    --navbar-link-color-dark: #ffffff;  /* Text color for links in dark theme */
+    --navbar-active-background: #4CAF50; /* Background color for active link */
+    --navbar-active-text-color: #ffffff; /* Text color for active link */
+    --navbar-hover-background: rgba(0, 0, 0, 0.1); /* Subtle hover effect */
+  }
+  
+  [data-theme="light"] {
+    --navbar-background: var(--navbar-background-light);
+    --navbar-link-color: var(--navbar-link-color-light);
+  }
+  
+  [data-theme="dark"] {
+    --navbar-background: var(--navbar-background-dark);
+    --navbar-link-color: var(--navbar-link-color-dark);
+  }
+  
+  .navbar {
+    background-color: var(--navbar-background);
+    color: var(--navbar-link-color);
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Navbar links */
+  .navbar-links {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+  }
+  
+  .nav-link {
+    color: var(--navbar-link-color);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  /* Active link styling */
+  .nav-link.active {
+    background-color: var(--navbar-active-background);
+    color: var(--navbar-active-text-color);
+    border-radius: 4px;
+  }
+  
+  /* Hover effect for links */
+  .nav-link:hover {
+    background-color: var(--navbar-hover-background);
+    border-radius: 4px;
+  }
+  
+  /* Responsive Navbar styling */
+  .menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Hide by default, show on small screens */
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: block;
+    }
+  }
+  

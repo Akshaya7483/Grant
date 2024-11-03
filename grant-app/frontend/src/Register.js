@@ -9,18 +9,17 @@ function Register() {
     const [dob, setDob] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [otpCooldown, setOtpCooldown] = useState(0); // Cooldown timer for OTP button
-    const [otpAttempts, setOtpAttempts] = useState(0); // Track number of OTP attempts
-    const [isOtpRequestInProgress, setIsOtpRequestInProgress] = useState(false); // Prevent rapid clicks
+    const [otpCooldown, setOtpCooldown] = useState(0); 
+    const [otpAttempts, setOtpAttempts] = useState(0); 
+    const [isOtpRequestInProgress, setIsOtpRequestInProgress] = useState(false); 
     const navigate = useNavigate();
 
-    // Countdown effect for OTP cooldown
     useEffect(() => {
         if (otpCooldown > 0) {
             const timer = setInterval(() => {
                 setOtpCooldown(prev => prev - 1);
             }, 1000);
-            return () => clearInterval(timer); // Clear timer on component unmount or cooldown change
+            return () => clearInterval(timer);
         }
     }, [otpCooldown]);
 
@@ -42,28 +41,25 @@ function Register() {
 
         if (otpCooldown > 0 || otpAttempts >= 3 || isOtpRequestInProgress) return;
 
-        setIsOtpRequestInProgress(true); // Prevent further clicks
+        setIsOtpRequestInProgress(true);
 
-        // Check if user is already registered
-        axios.post('http://localhost:8081/check-email', { email })
+        axios.post('https://YOUR_NGROK_URL/check-email', { email })
             .then(res => {
                 if (res.data.exists) {
                     alert("This email is already registered. Please use a different email.");
                     setIsOtpRequestInProgress(false);
                 } else {
-                    // If the email is not registered, proceed to get OTP
-                    axios.post('http://localhost:8081/get-otp', { email, type: "register" })
+                    axios.post('https://YOUR_NGROK_URL/get-otp', { email, type: "register" })
                         .then(res => {
                             alert(res.data.message);
-                            setOtpAttempts(prev => prev + 1); // Increment OTP attempts
+                            setOtpAttempts(prev => prev + 1); 
 
-                            // Set cooldown period based on attempts
                             if (otpAttempts === 0) {
-                                setOtpCooldown(30); // 30 seconds for the first attempt
+                                setOtpCooldown(30); 
                             } else if (otpAttempts === 1) {
-                                setOtpCooldown(60); // 1 minute for the second attempt
+                                setOtpCooldown(60); 
                             } else if (otpAttempts === 2) {
-                                setOtpCooldown(-1); // Hide button after the third attempt
+                                setOtpCooldown(-1); 
                             }
                         })
                         .catch(err => {
@@ -71,7 +67,7 @@ function Register() {
                             alert(message);
                         })
                         .finally(() => {
-                            setIsOtpRequestInProgress(false); // Re-enable button after request completes
+                            setIsOtpRequestInProgress(false);
                         });
                 }
             })
@@ -94,7 +90,7 @@ function Register() {
             return;
         }
 
-        axios.post('http://localhost:8081/register', {
+        axios.post('https://YOUR_NGROK_URL/register', {
             name,
             email,
             otp,
@@ -105,7 +101,7 @@ function Register() {
         .then(res => {
             if (res.data.success) {
                 alert(res.data.message);
-                navigate('/login'); // Redirect to login page on successful registration
+                navigate('/login');
             } else {
                 alert(res.data.message || "Registration failed. Please try again.");
             }

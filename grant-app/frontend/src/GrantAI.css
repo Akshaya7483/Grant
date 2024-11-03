@@ -1,0 +1,188 @@
+:root {
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --navbar-background-light: #f0f0f0; /* Light theme navbar */
+    --navbar-background-dark: #333333;  /* Dark theme navbar */
+    --navbar-text-color: #ffffff;
+    --button-background: #007bff;
+    --button-text: #ffffff;
+    --send-button-background: #28a745;
+    --delete-button-background: #ff4d4d;
+    --input-background: #f8f9fa;
+    --message-user-background: #007bff;
+    --message-assistant-background: #e9ecef;
+  }
+  
+  [data-theme="dark"] {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --navbar-background: var(--navbar-background-dark);
+    --navbar-text-color: #ffffff;
+    --button-background: #0056b3;
+    --send-button-background: #218838;
+    --delete-button-background: #d9534f;
+    --input-background: #1e1e1e;
+    --message-user-background: #1565c0;
+    --message-assistant-background: #333333;
+  }
+  
+  /* Main container */
+  .container {
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+  }
+  
+  /* Sidebar */
+  .chat-list-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .chat-title {
+    font-size: 20px;
+    margin-right: 10px;
+    color: var(--text-color);
+  }
+  
+  .chat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--input-background);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.3s;
+  }
+  
+  .chat-item:hover {
+    background-color: #555;
+  }
+  
+  /* Delete button */
+  .delete-button {
+    margin-left: 10px;
+    cursor: pointer;
+    background-color: var(--delete-button-background);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+  
+  /* New chat button */
+  .new-chat-button {
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    background-color: var(--button-background);
+    color: var(--button-text);
+    transition: background-color 0.3s;
+  }
+  
+  .new-chat-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Chat history */
+  .chat-history {
+    margin-bottom: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 10px;
+    background-color: var(--input-background);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  /* Messages */
+  .message-box {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    color: var(--text-color);
+  }
+  
+  .message-box.user {
+    background-color: var(--message-user-background);
+    color: var(--button-text);
+    align-self: flex-end;
+  }
+  
+  .message-box.assistant {
+    background-color: var(--message-assistant-background);
+    color: var(--text-color);
+    align-self: flex-start;
+  }
+  
+  /* Text area */
+  .textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Send button */
+  .send-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: var(--button-text);
+    background-color: var(--send-button-background);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .send-button:hover {
+    background-color: #1c7430;
+  }
+  
+  .send-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Theme toggle button */
+  .theme-toggle {
+    margin-left: auto;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: var(--button-background);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .theme-toggle:hover {
+    background-color: #0056b3;
+  }
+  
